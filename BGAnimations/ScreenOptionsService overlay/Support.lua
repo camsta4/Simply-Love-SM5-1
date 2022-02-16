@@ -21,6 +21,11 @@ local a = Def.Actor{}
 
 a.OnCommand=function(self) SCREENMAN:GetTopScreen():AddInputCallback( InputHandler ) end
 a.BeginCommand=function(self)
+	-- In case we switched into SRPG5 and had Rainbow Mode enabled, disable it.
+	if ThemePrefs.Get("VisualStyle") == "SRPG5" and ThemePrefs.Get("RainbowMode") == true then
+		ThemePrefs.Set("RainbowMode", false)
+	end
+	
 	-- we might have just backed out of ScreenThemeOptions ("Simply Love Options")
 	-- in which case we'll want to call ThemePrefs.Save() now
 	ThemePrefs.Save()
@@ -35,7 +40,7 @@ a.BeginCommand=function(self)
 
 	-- Broadcast a message for "./BGAnimations/_shared background/" to listen for in case VisualStyle has changed.
 	-- This compensates for ThemePrefsRows' current lack of support for ExportOnChange() and SaveSelections().
-	MESSAGEMAN:Broadcast("BackgroundImageChanged")
+	MESSAGEMAN:Broadcast("VisualStyleSelected")
 end
 
 -- OffCommand() will be called if the player tries to leave the operator menu by choosing an OptionRow

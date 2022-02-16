@@ -5,10 +5,6 @@ local avatars = args.Avatars
 local scroller = args.Scroller
 local scroller_item_mt = LoadActor("./ScrollerItemMT.lua")
 
-local LightenColor = function(c)
-	return { c[1]*1.25, c[2]*1.25, c[3]*1.25, c[4] }
-end
-
 -- -----------------------------------------------------------------------
 -- TODO: start over from scratch so that these numbers make sense in SL
 --       as-is, they are half-leftover from editing _fallback's code
@@ -234,7 +230,7 @@ return Def.ActorFrame{
 						end,
 						SetCommand=function(self, params)
 							if params and params.index and avatars[params.index] then
-								self:SetTexture(avatars[params.index]):visible(true)
+								self:Load(avatars[params.index]):visible(true)
 							else
 								self:visible(false)
 							end
